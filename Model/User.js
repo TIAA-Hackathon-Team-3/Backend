@@ -24,8 +24,7 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Please provide a Password"]
     },
     profilePic: {
-        data: Buffer,
-        contentType: String
+        type: String
     },
     Role: {
         type: String,
