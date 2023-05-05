@@ -112,12 +112,38 @@ exports.reSendOTP = async (req, res, next) => {
             code: generatedOTP
         })
 
-        const isEmailSent = await sendMail({ email:user.email, firstName:user.firstName }, OTPtemplete((`Hi , ${firstName} Here is your OTP to verify your account: ` , generatedOTP), "Account Verification code"))
+        const isEmailSent = await sendMail({ email:user.email}, OTPtemplete((`Hi ${firstName} ,Here is your OTP to verify your account: ` , generatedOTP), "Account Verification code"))
         if (isEmailSent === null) {
             return res.status(200).json(success(`${user.firstName} ${user.lastName} is register successfully but we are facing some email issue.`, { id: userId }))
         }
         return res.status(200).json(success("OTP is send successfully", {id: userId}))
 
+    } catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
+
+exports.forgotPasswordUserVerify=async(req,res,next)=>{
+    try {
+        const {email}=req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: true, message: "User doesn't exist" });
+        }
+        if(!user.verified){
+            return res.status(400).json({ error: true, message: "User is not verified" });
+        }
+        const generatedOTP = generateOTP(6);
+        const isEmailSent = await sendMail({ email:user.email}, OTPtemplete((`Hi ${firstName} ,Here is your OTP to change your account password: ` , generatedOTP), "Password change"))    
+        await VerificationCode.updateOne({
+            user:user._id
+        },{
+            code:generateOTP
+        })
+        if (isEmailSent === null) {
+            return res.status(200).json(success("we are facing some email issue. Please try again later", { id: user._id }))
+        }
+        return res.status(200).json(success("OTP is send successfully",{id:user._id}));
     } catch (error) {
         res.status(400).json({ error: true, message: error.message });
     }
