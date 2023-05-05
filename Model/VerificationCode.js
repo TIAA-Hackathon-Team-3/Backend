@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const VerificationCodeSchema = new mongoose.Schema({
-    employeeID:{ type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
+    userId:{ type: mongoose.Schema.Types.ObjectId, ref: "User" },
     code:{
         type: String,
         requied: true
