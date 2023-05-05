@@ -19,12 +19,43 @@ const UserSchema = new mongoose.Schema({
             "Please fill a valid email address",
         ],
     },
+    phoneNumber: {
+        type: String,
+        trim: true,
+        validate: {
+            validator: function (v) {
+                return /^[0-9]{10}/.test(v);
+            },
+            message: 'phoneNumber is not a valid 10 digit number!'
+        }
+    },
+    address:{
+        type: String,
+    },
+    city:{
+        type: String,
+    },
+    state:{
+        type: String,
+    },
+    country:{
+        type: String,
+    },
+    zipCode:{
+        type: String,
+    },
+    birthDate:{
+        type: Date,
+    },
     password: {
         type: String,
         required: [true, "Please provide a Password"]
     },
     profilePic: {
         type: String
+    },
+    aboutMe:{
+        type: String,
     },
     Role: {
         type: String,

@@ -166,3 +166,36 @@ exports.forgotPassword=async(req,res,next)=>{
         res.status(400).json({ error: true, message: error.message });
     }
 }
+
+exports.getUserProfile=async(req,res,next)=>{
+    try{
+        const {userId} = req.params;
+        const user = await User.findOne({_id:userId});
+        if(!user){
+            return res.status(400).json({ error: true, message: "User doesn't exist" });
+        }
+        if(!user.verified){
+            return res.status(400).json({ error: true, message: "User is not verified" });
+        }
+        const response={
+            id:user._id,
+            firstName:user.firstName,
+            lastName:user.lastName,
+            email:user.email,
+            phone:user.phone,
+            address:user.address,
+            city:user.city,
+            state:user.state,
+            country:user.country,
+            aboutMe:user.aboutMe,
+            profilePic:user.profilePic,
+            birthDate:user.birthDate
+            
+        }
+        return res.status(200).json(success("Profile Data",response));
+
+    }
+    catch(error){
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
