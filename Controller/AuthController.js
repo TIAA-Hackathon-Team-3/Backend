@@ -199,3 +199,49 @@ exports.getUserProfile=async(req,res,next)=>{
         res.status(400).json({ error: true, message: error.message });
     }
 }
+
+exports.userProfileUpdate=async(req,res,next)=>{
+    try{
+        const {
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
+            city,
+            state,
+            country,
+            zipCode,
+            birthDate,
+            profilePic,
+            aboutMe
+        }=req.body;
+        const {userId} = req.params;
+        const user = await User.findOne({email:email});
+        if (!user) {
+            return res.status(400).json({ error: true, message: "User doesn't exist" });
+        }
+        if(!user.verified){
+            return res.status(400).json({ error: true, message: "User is not verified" });
+        }
+        await User.updateOne({
+            _id:userId
+        },{
+            firstName: firstName || user.firstName,
+            lastName: lastName || user.lastName,
+            phoneNumber: phoneNumber || user.phoneNumber,
+            address: address || user.address,
+            city: city || user.city,
+            state: state || user.state,
+            country: country || user.country,
+            zipCode: zipCode || user.zipCode,
+            birthDate: birthDate || user.birthDate,
+            profilePic: profilePic || user.profilePic,
+            aboutMe: aboutMe || user.aboutMe
+        })
+
+        return res.status(200).json(success("Profile is succesfully updated",{id:userId}));
+    }
+    catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
