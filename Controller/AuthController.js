@@ -97,3 +97,28 @@ exports.verifyUser = async (req, res, next) => {
         res.status(400).json({ error: true, message: error.message });
     }
 }
+
+exports.reSendOTP = async (req, res, next) => {
+    try {
+        const {userId} = req.params;
+
+        const user = await User.findOne({_id:userId})
+        const generatedOTP = generateOTP(6);
+        await VerificationCode.updateOne(
+            {
+                user: userId
+            }
+            ,{
+            code: generatedOTP
+        })
+
+        const isEmailSent = await sendMail({ email:user.email, firstName:user.firstName }, OTPtemplete((`Hi , ${firstName} Here is your OTP to verify your account: ` , generatedOTP), "Account Verification code"))
+        if (isEmailSent === null) {
+            return res.status(200).json(success(`${user.firstName} ${user.lastName} is register successfully but we are facing some email issue.`, { id: userId }))
+        }
+        return res.status(200).json(success("OTP is send successfully", {id: userId}))
+
+    } catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
