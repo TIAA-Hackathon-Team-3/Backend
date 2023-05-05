@@ -70,3 +70,30 @@ exports.login = async (req, res, next) => {
         res.status(400).json({ error: true, message: error.message });
     }
 }
+
+
+exports.verifyUser = async (req, res, next) => {
+    try {
+        const {userId} = req.params;
+        const {code} = req.body;
+        if(!userId || !code){
+            return res.status(400).json({ error: true, message: "invalid" });
+        }
+        const verificationCode = await VerificationCode.findOne({user:userId});
+        if(!verificationCode){
+            return res.status(400).json({ error: true, message: "OTP has been expire" });
+        }
+        if(verificationCode.code !== code){
+            return res.status(400).json({ error: true, message: "invalid Verification Code" });
+        }
+        await User.updateOne({
+            _id:userId
+        },{
+            verified:true
+        })
+        return res.status(200).json(success(`User verified successfully`, {id:userId}))
+
+    } catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
