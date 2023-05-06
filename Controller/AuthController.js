@@ -6,6 +6,7 @@ const VerificationCode = require("../Model/VerificationCode")
 const sendMail = require("../Services/EmailServices/sendEmail")
 const {success} = require("../Helper/Response.js")
 const bcrypt = require("bcrypt");
+const getJwtToken = require("../Helper/GetJwtToken")
 
 exports.register = async (req, res, next) => {
     try {
@@ -47,7 +48,7 @@ exports.login = async (req, res, next) => {
         if (!email || !password) {
             return res.status(400).json({ error: true, message: "Invalid Credentials. Please provide all required fields" });
         }
-        const user = await Users.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ error: true, message: "User doesn't exist" });
         }
