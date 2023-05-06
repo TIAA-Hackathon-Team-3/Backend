@@ -255,3 +255,26 @@ exports.userProfileUpdate=async(req,res,next)=>{
         res.status(400).json({ error: true, message: error.message });
     }
 }
+
+exports.changePassword=async(req,res,next)=>{
+    try {
+        const {currentPassword,newPassword,confirmPassword}=req.body;
+        const {userId}=req.params;
+        if(!currentPassword &&!newPassword && !confirmPassword && newPassword!==confirmPassword){
+            return res.status(400).json({ error: true, message: "Invalid data" });
+        }
+        const user = await User.find({_id:userId});
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: true, message: "Invalid Credentials. Ohhh ,Password is wrong" });
+        }
+        
+        const salt = await bcrypt.genSalt(10);
+        const hashpassword = await bcrypt.hash(newPassword, salt);
+        await User.updateOne({_id:userId},{password:hashpassword})
+
+        return res.status(200).json(success("Password is succesfully changed",{id:userId}));
+    } catch (error) {
+        
+    }
+}
