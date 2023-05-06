@@ -1,9 +1,18 @@
 const mongoose = require("mongoose");
 
 const CommentsSchema = new mongoose.Schema({
-    title: String,
-    body: String,
-    date: Date
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        unique: true,
+        ref: "User"
+    },
+    body: {
+        type: String,
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 const upVoteSchema = new mongoose.Schema({
@@ -57,7 +66,7 @@ const PostSchema = new mongoose.Schema(
             type: Date,
             default: Date.now
         },
-        upvote: {
+        upVote: {
             type: upVoteSchema,
             default: [],
         },
