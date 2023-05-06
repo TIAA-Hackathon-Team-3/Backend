@@ -66,18 +66,9 @@ const PostSchema = new mongoose.Schema(
             type: Date,
             default: Date.now
         },
-        upVote: {
-            type: upVoteSchema,
-            default: [],
-        },
-        downVote:{
-            type: downVoteSchema,
-            default: [],
-        },
-        comments: {
-            type: CommentsSchema,
-            default: [],
-        },
+        upVote: [upVoteSchema] ,
+        downVote:[downVoteSchema],
+        comments:[CommentsSchema],
     },
     { timestamps: false }
 );
