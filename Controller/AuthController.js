@@ -3,6 +3,8 @@ const { generateOTP } = require("../Helper/GenerateOTP");
 const { USER } = require("../Helper/Role_Constant");
 const User = require("../Model/User");
 const VerificationCode = require("../Model/VerificationCode")
+const sendMail = require("../Services/EmailServices/sendEmail")
+const {success} = require("../Helper/Response.js")
 
 exports.register = async (req, res, next) => {
     try {
@@ -24,7 +26,7 @@ exports.register = async (req, res, next) => {
 
         const generatedOTP = generateOTP(6);
         await VerificationCode.create({
-            user: user._id,
+            userId: user._id,
             code: generatedOTP
         })
 
@@ -81,7 +83,7 @@ exports.verifyUser = async (req, res, next) => {
         if(!userId || !code){
             return res.status(400).json({ error: true, message: "invalid" });
         }
-        const verificationCode = await VerificationCode.findOne({user:userId});
+        const verificationCode = await VerificationCode.findOne({userId});
         if(!verificationCode){
             return res.status(400).json({ error: true, message: "OTP has been expire" });
         }
@@ -106,15 +108,20 @@ exports.reSendOTP = async (req, res, next) => {
 
         const user = await User.findOne({_id:userId})
         const generatedOTP = generateOTP(6);
-        await VerificationCode.updateOne(
+        const verificationCode = await VerificationCode.findOne(
             {
                 user: userId
             }
-            ,{
+        )
+        if(verificationCode){
+            return res.status(400).json({ error: true, message: "OTP is already sent , Try again" });
+        }
+        await VerificationCode.create({
+            userId: user._id,
             code: generatedOTP
         })
 
-        const isEmailSent = await sendMail({ email:user.email}, OTPtemplete((`Hi ${firstName} ,Here is your OTP to verify your account: ` , generatedOTP), "Account Verification code"))
+        const isEmailSent = await sendMail({ email:user.email}, OTPtemplete(`Hi ${user.firstName} ,Here is your OTP to verify your account: ` , generatedOTP), "Account Verification code")
         if (isEmailSent === null) {
             return res.status(200).json(success(`${user.firstName} ${user.lastName} is register successfully but we are facing some email issue.`, { id: userId }))
         }
