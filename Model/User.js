@@ -54,6 +54,9 @@ const UserSchema = new mongoose.Schema({
     profilePic: {
         type: String
     },
+    tagLine:{
+        type: String,
+    },
     aboutMe:{
         type: String,
     },
@@ -64,6 +67,9 @@ const UserSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         required: true,
+    },
+    post:{
+        type: Array,
     },
     dateCreated: {
         type: Date,
