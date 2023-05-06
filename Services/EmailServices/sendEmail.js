@@ -16,7 +16,7 @@ const mailOption =(user,subject,message)=> {
     from: config.GMAIL_ID,
     to: user.email,
     subject: subject,
-    text: message
+    html: message
   };
 }
 
