@@ -1,3 +1,4 @@
+const { success } = require("../Helper/Response");
 const Post = require("../Model/Post");
 const User = require("../Model/User");
 const { post } = require("../Routes/AuthRoute");
@@ -32,6 +33,9 @@ exports.createPost=async(req,res,next)=>{
             title,
             discription,
             image,
+            upVote:[],
+            downVote:[],
+            comments:[]
         })
         return res.status(200).json(success("Post is creatd successfully ",post));
 
