@@ -2,6 +2,7 @@ const { OTPtemplete } = require("../Helper/EmailTemplete/OTPTemplete");
 const { generateOTP } = require("../Helper/GenerateOTP");
 const { USER } = require("../Helper/Role_Constant");
 const User = require("../Model/User");
+const VerificationCode = require("../Model/VerificationCode")
 
 exports.register = async (req, res, next) => {
     try {
