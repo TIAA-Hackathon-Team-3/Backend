@@ -24,7 +24,7 @@ const downVoteSchema = new mongoose.Schema({
 
 const PostSchema = new mongoose.Schema(
     {
-        author: {
+        authorId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
@@ -33,7 +33,6 @@ const PostSchema = new mongoose.Schema(
         },
         authorName: {
             type: String,
-            required: true
         },
         authorTagLine: {
             type: String,
@@ -41,7 +40,7 @@ const PostSchema = new mongoose.Schema(
         title: {
             type: String,
             unique: true,
-            required: true
+            required: [true,"Title is requied to create post"]
         },
         discription: {
             type: String,
@@ -50,7 +49,10 @@ const PostSchema = new mongoose.Schema(
         image: {
             type: String,
         },
-
+        category: {
+            type: String,
+            required: [true,"Category is requied to create post"]
+        },
         date: {
             type: Date,
             default: Date.now
