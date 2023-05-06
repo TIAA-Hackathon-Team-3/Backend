@@ -1,4 +1,4 @@
-const { register, login, verifyUser, reSendOTP, forgotPasswordUserVerify, forgotPassword, getUserProfile, userProfileUpdate } = require("../Controller/AuthController");
+const { register, login, verifyUser, reSendOTP, forgotPasswordUserVerify, forgotPassword, getUserProfile, userProfileUpdate, changePassword } = require("../Controller/AuthController");
 const { getAllPosts, createPost, upVotePost, downVotePost, commentsPost } = require("../Controller/PostController");
 const verifyToken = require("../Middleware/VerifyToken");
 
