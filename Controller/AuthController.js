@@ -1,4 +1,5 @@
 const { OTPtemplete } = require("../Helper/EmailTemplete/OTPTemplete");
+const { generateOTP } = require("../Helper/GenerateOTP");
 const { USER } = require("../Helper/Role_Constant");
 const User = require("../Model/User");
 
