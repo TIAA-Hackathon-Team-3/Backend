@@ -5,6 +5,7 @@ const User = require("../Model/User");
 const VerificationCode = require("../Model/VerificationCode")
 const sendMail = require("../Services/EmailServices/sendEmail")
 const {success} = require("../Helper/Response.js")
+const bcrypt = require("bcrypt");
 
 exports.register = async (req, res, next) => {
     try {
@@ -143,11 +144,10 @@ exports.forgotPasswordUserVerify=async(req,res,next)=>{
             return res.status(400).json({ error: true, message: "User is not verified" });
         }
         const generatedOTP = generateOTP(6);
-        const isEmailSent = await sendMail({ email:user.email}, OTPtemplete((`Hi ${firstName} ,Here is your OTP to change your account password: ` , generatedOTP), "Password change"))    
-        await VerificationCode.updateOne({
-            user:user._id
-        },{
-            code:generateOTP
+        const isEmailSent = await sendMail({ email:user.email}, OTPtemplete(`Hi ${user.firstName} ,Here is your OTP to change your account password: ` , generatedOTP), "Password change OTP")    
+        await VerificationCode.create({
+            userId: user._id,
+            code: generatedOTP
         })
         if (isEmailSent === null) {
             return res.status(200).json(success("we are facing some email issue. Please try again later", { id: user._id }))
