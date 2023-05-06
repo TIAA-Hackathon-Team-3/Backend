@@ -1,5 +1,5 @@
 const { register, login, verifyUser, reSendOTP, forgotPasswordUserVerify, forgotPassword, getUserProfile, userProfileUpdate } = require("../Controller/AuthController");
-const { getAllPosts } = require("../Controller/PostController");
+const { getAllPosts, createPost } = require("../Controller/PostController");
 const verifyToken = require("../Middleware/VerifyToken");
 
 const router = require("express").Router();
@@ -15,6 +15,7 @@ router.route("/forgotPassword/:userId").post(forgotPassword);
 
 router.route("/getUserProfile/:userId").get(verifyToken,getUserProfile);
 router.route("/userProfileUpdate/:userId").put(verifyToken,userProfileUpdate);
-router.route("/getAllPosts").get(verifyToken,getAllPosts)
+router.route("/getAllPosts").get(verifyToken,getAllPosts);
+router.route("/createPost/:userId").post(verifyToken,createPost);
 
 module.exports = router;
