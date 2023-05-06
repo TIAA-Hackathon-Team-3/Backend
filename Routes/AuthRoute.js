@@ -22,5 +22,7 @@ router.route("/upVotePost/:userId").post(verifyToken,upVotePost);
 router.route("/downVotePost/:userId").post(verifyToken,downVotePost);
 router.route("/commentsPost/:userId").post(verifyToken,commentsPost);
 
+router.route("/changePassword/:userId").post(verifyToken,changePassword);
+
 
 module.exports = router;
