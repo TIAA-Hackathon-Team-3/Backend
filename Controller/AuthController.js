@@ -53,7 +53,14 @@ exports.login = async (req, res, next) => {
             return res.status(400).json({ error: true, message: "User doesn't exist" });
         }
         if(!user.verified){
-            return res.status(200).json({ error: true, message: `${user.firstName} is not verified` });
+            await VerificationCode.create({
+                userId: user._id,
+                code: generatedOTP
+            })
+            const generatedOTP = generateOTP(6);
+            const isEmailSent = await sendMail({ email:user.email}, OTPtemplete(`Hi ${user.firstName} ,Here is your OTP to verify your account: ` , generatedOTP),
+             "Account Verification code")
+            return res.status(200).json({ error: true, message: `User is not verified` });
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
