@@ -1,3 +1,4 @@
+const { getAllUsers } = require("../Controller/AdminController");
 const { register, login, verifyUser, reSendOTP, forgotPasswordUserVerify, forgotPassword, getUserProfile, userProfileUpdate, changePassword } = require("../Controller/AuthController");
 const { getAllPosts, createPost, upVotePost, downVotePost, commentsPost, createQuestion, answerTheQuestion } = require("../Controller/PostController");
 const verifyToken = require("../Middleware/VerifyToken");
@@ -25,6 +26,8 @@ router.route("/createQuestion/:userId").post(verifyToken,createQuestion)
 router.route("/answerTheQuestion/:userId").post(verifyToken,answerTheQuestion)
 
 router.route("/changePassword/:userId").post(verifyToken,changePassword);
+
+router.route("/getAllUsers").get(verifyToken,getAllUsers);
 
 
 module.exports = router;

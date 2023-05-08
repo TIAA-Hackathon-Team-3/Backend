@@ -24,6 +24,9 @@ exports.createPost = async (req, res, next) => {
         } = req.body;
         const { userId } = req.params;
         const user = await User.find({ _id: userId });
+        if(!user){
+            return res.status(400).json({ error: true, message: "User does not exist" });
+        }
         const post = await Post.create({
             authorId: user._id,
             authorProfilePicture: user.profilePic,
