@@ -1,6 +1,6 @@
 const { OTPtemplete } = require("../Helper/EmailTemplete/OTPTemplete");
 const { generateOTP } = require("../Helper/GenerateOTP");
-const { USER } = require("../Helper/Role_Constant");
+const { USER, ADMIN } = require("../Helper/Role_Constant");
 const User = require("../Model/User");
 const VerificationCode = require("../Model/VerificationCode")
 const sendMail = require("../Services/EmailServices/sendEmail")
@@ -24,7 +24,7 @@ exports.register = async (req, res, next) => {
             password: password,
             Role: USER,
             verified: false,
-            blocked: false
+            block: false
         });
 
         const generatedOTP = generateOTP(6);
@@ -62,6 +62,9 @@ exports.login = async (req, res, next) => {
             const isEmailSent = await sendMail({ email:user.email}, OTPtemplete(`Hi ${user.firstName} ,Here is your OTP to verify your account: ` , generatedOTP),
              "Account Verification code")
             return res.status(200).json({ error: true, message: `User is not verified` });
+        }
+        if(usere.block){
+            return res.status(400).json({ error: true, message: "User is blocked" });
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
