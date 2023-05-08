@@ -63,7 +63,7 @@ exports.login = async (req, res, next) => {
              "Account Verification code")
             return res.status(200).json({ error: true, message: `User is not verified` });
         }
-        if(usere.block){
+        if(user.block){
             return res.status(400).json({ error: true, message: "User is blocked" });
         }
         const isMatch = await bcrypt.compare(password, user.password);
