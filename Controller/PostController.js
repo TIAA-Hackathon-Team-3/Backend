@@ -2,7 +2,6 @@ const { success } = require("../Helper/Response");
 const Post = require("../Model/Post");
 const User = require("../Model/User");
 const Question = require("../Model/Question")
-const { post } = require("../Routes/AuthRoute");
 
 exports.getAllPosts = async (req, res, next) => {
     try {
