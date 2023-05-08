@@ -1,4 +1,4 @@
-const { getAllUsers } = require("../Controller/AdminController");
+const { getAllUsers, unblockUser, blockUser } = require("../Controller/AdminController");
 const { register, login, verifyUser, reSendOTP, forgotPasswordUserVerify, forgotPassword, getUserProfile, userProfileUpdate, changePassword } = require("../Controller/AuthController");
 const { getAllPosts, createPost, upVotePost, downVotePost, commentsPost, createQuestion, answerTheQuestion, getAllQuestion } = require("../Controller/PostController");
 const verifyToken = require("../Middleware/VerifyToken");
@@ -29,6 +29,8 @@ router.route("/getAllQuestion").get(verifyToken,getAllQuestion)
 router.route("/changePassword/:userId").post(verifyToken,changePassword);
 
 router.route("/getAllUsers").get(verifyToken,getAllUsers);
+router.route("/blockUser/:blockUserId").get(verifyToken,blockUser);
+router.route("/unblockUser/:blockUserId").get(verifyToken,unblockUser);
 
 
 module.exports = router;
