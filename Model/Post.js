@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const CommentsSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        unique: true,
         ref: "User"
     },
     body: {
@@ -18,7 +17,6 @@ const CommentsSchema = new mongoose.Schema({
 const upVoteSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        unique: true,
         ref: "User"
     },
 });
@@ -26,7 +24,6 @@ const upVoteSchema = new mongoose.Schema({
 const downVoteSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        unique: true,
         ref: "User"
     },
 });
@@ -48,7 +45,6 @@ const PostSchema = new mongoose.Schema(
         },
         title: {
             type: String,
-            unique: true,
             required: [true,"Title is requied to create post"]
         },
         discription: {
