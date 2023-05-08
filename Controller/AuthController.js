@@ -243,17 +243,17 @@ exports.userProfileUpdate=async(req,res,next)=>{
         await User.updateOne({
             _id:userId
         },{
-            firstName: firstName || user.firstName,
-            lastName: lastName || user.lastName,
-            phoneNumber: phoneNumber || user.phoneNumber,
-            address: address || user.address,
-            city: city || user.city,
-            state: state || user.state,
-            country: country || user.country,
-            zipCode: zipCode || user.zipCode,
-            birthDate: birthDate || user.birthDate,
-            profilePic: profilePic || user.profilePic,
-            aboutMe: aboutMe || user.aboutMe
+            firstName: firstName.length()!==0 ? firstName : user.firstName,
+            lastName: lastName.length()!==0 ?  lastName : user.lastName,
+            phoneNumber: phoneNumber.length()!==0 ?  phoneNumber : user.phoneNumber,
+            address: address.length()!==0 ?  address : user.address,
+            city: city.length()!==0 ?  city : user.city,
+            state: state.length()!==0 ?  state : user.state,
+            country: country.length()!==0 ?  country : user.country,
+            zipCode: zipCode.length()!==0 ?  zipCode : user.zipCode,
+            birthDate: birthDate.length()!==0 ?  birthDate : user.birthDate,
+            profilePic: profilePic.length()!==0 ?  profilePic : user.profilePic,
+            aboutMe: aboutMe.length()!==0 ?  aboutMe : user.aboutMe
         })
 
         return res.status(200).json(success("Profile is succesfully updated",{id:userId}));
