@@ -1,6 +1,6 @@
 const { OTPtemplete } = require("../Helper/EmailTemplete/OTPTemplete");
 const { generateOTP } = require("../Helper/GenerateOTP");
-const { USER } = require("../Helper/Role_Constant");
+const { USER, ADMIN } = require("../Helper/Role_Constant");
 const User = require("../Model/User");
 const VerificationCode = require("../Model/VerificationCode")
 const sendMail = require("../Services/EmailServices/sendEmail")
@@ -24,7 +24,7 @@ exports.register = async (req, res, next) => {
             password: password,
             Role: USER,
             verified: false,
-            blocked: false
+            block: false
         });
 
         const generatedOTP = generateOTP(6);
