@@ -23,7 +23,8 @@ exports.register = async (req, res, next) => {
             email: email,
             password: password,
             Role: USER,
-            verified: false
+            verified: false,
+            blocked: false
         });
 
         const generatedOTP = generateOTP(6);
