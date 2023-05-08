@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const upVoteSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        unique: true,
         ref: "User"
     },
 });
@@ -12,7 +11,6 @@ const upVoteSchema = new mongoose.Schema({
 const downVoteSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        unique: true,
         ref: "User"
     },
 });
@@ -44,7 +42,6 @@ const QuestionSchema = new mongoose.Schema(
         },
         question: {
             type: String,
-            unique: true,
             required: [true,"Title is requied to create post"]
         },
         answer: {
