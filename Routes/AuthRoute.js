@@ -1,6 +1,6 @@
 const { getAllUsers } = require("../Controller/AdminController");
 const { register, login, verifyUser, reSendOTP, forgotPasswordUserVerify, forgotPassword, getUserProfile, userProfileUpdate, changePassword } = require("../Controller/AuthController");
-const { getAllPosts, createPost, upVotePost, downVotePost, commentsPost, createQuestion, answerTheQuestion } = require("../Controller/PostController");
+const { getAllPosts, createPost, upVotePost, downVotePost, commentsPost, createQuestion, answerTheQuestion, getAllQuestion } = require("../Controller/PostController");
 const verifyToken = require("../Middleware/VerifyToken");
 
 const router = require("express").Router();
@@ -24,6 +24,7 @@ router.route("/downVotePost/:userId").post(verifyToken,downVotePost);
 router.route("/commentsPost/:userId").post(verifyToken,commentsPost);
 router.route("/createQuestion/:userId").post(verifyToken,createQuestion)
 router.route("/answerTheQuestion/:userId").post(verifyToken,answerTheQuestion)
+router.route("/getAllQuestion").get(verifyToken,getAllQuestion)
 
 router.route("/changePassword/:userId").post(verifyToken,changePassword);
 

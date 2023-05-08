@@ -165,3 +165,18 @@ exports.answerTheQuestion = async (req, res, next) => {
         res.status(400).json({ error: true, message: error.message });
     }
 }
+
+exports.getAllQuestion = async (req, res, next) => {
+    try {
+        
+        const questions = await Question.find();
+
+
+        
+
+        return res.status(200).json(success("here are all question ", questions));
+
+    } catch (error) {
+        res.status(400).json({ error: true, message: error.message });
+    }
+}
