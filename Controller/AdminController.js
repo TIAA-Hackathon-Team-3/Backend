@@ -1,5 +1,5 @@
 const User = require("../Model/User");
-
+const {success} = require("../Helper/Response.js")
 exports.getAllUsers=async(req,res,next)=>{
     try {
         const users = await User.find();
