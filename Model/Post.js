@@ -49,7 +49,7 @@ const PostSchema = new mongoose.Schema(
         },
         discription: {
             type: String,
-            max: 1000,
+            max: 2000,
         },
         image: {
             type: String,
